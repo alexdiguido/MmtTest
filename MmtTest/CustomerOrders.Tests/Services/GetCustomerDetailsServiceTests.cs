@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CustomerOrders.Helpers;
 using CustomerOrders.Services;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using Xunit;
 
@@ -37,6 +38,8 @@ namespace CustomerOrders.Tests.Services
 
             var apiGatewayMock = new Mock<IApiGateway>();
 
+            var configurationMock = new Mock<IConfiguration>();
+
             apiGatewayMock.Setup(api =>
                 api.GetAsync<CustomerDetails>(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<List<string>>()))
                 .Returns(Task.FromResult(customerDetails));
@@ -47,7 +50,7 @@ namespace CustomerOrders.Tests.Services
                 Success = true
             };
 
-            var actual = await new GetCustomerDetailsService(apiGatewayMock.Object).GetAsync(request);
+            var actual = await new GetCustomerDetailsService(apiGatewayMock.Object, configurationMock.Object).GetAsync(request);
 
             actual.Should().BeEquivalentTo(expected);
         }
@@ -75,12 +78,14 @@ namespace CustomerOrders.Tests.Services
 
             var apiGatewayMock = new Mock<IApiGateway>();
 
+            var configurationMock = new Mock<IConfiguration>();
+
             apiGatewayMock.Setup(api =>
                     api.GetAsync<CustomerDetails>(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<List<string>>()))
                 .ThrowsAsync(new Exception("message"));
 
 
-            var actual = await new GetCustomerDetailsService(apiGatewayMock.Object).GetAsync(request);
+            var actual = await new GetCustomerDetailsService(apiGatewayMock.Object, configurationMock.Object).GetAsync(request);
 
             actual.CustomerDetails.Should().BeNull();
             actual.Success.Should().BeFalse();
@@ -110,12 +115,14 @@ namespace CustomerOrders.Tests.Services
 
             var apiGatewayMock = new Mock<IApiGateway>();
 
+            var configurationMock = new Mock<IConfiguration>();
+
             apiGatewayMock.Setup(api => 
                     api.GetAsync<CustomerDetails>(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<List<string>>()))
                 .Returns(Task.FromResult(customerDetails));
 
 
-            var actual = await new GetCustomerDetailsService(apiGatewayMock.Object).GetAsync(request);
+            var actual = await new GetCustomerDetailsService(apiGatewayMock.Object, configurationMock.Object).GetAsync(request);
 
             actual.CustomerDetails.Should().NotBeNull();
             actual.Success.Should().BeFalse();

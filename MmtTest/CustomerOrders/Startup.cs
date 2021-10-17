@@ -45,7 +45,7 @@ namespace CustomerOrders
             services.AddControllers();
             services.AddHttpClient("CustomerDetails", c =>
             {
-                c.BaseAddress = new Uri("https://customer-account-details.azurewebsites.net");
+                c.BaseAddress = new Uri(Configuration["CustomerDetailsEndpoint:Url"]);
             });
 
             services.AddSwaggerGen();
