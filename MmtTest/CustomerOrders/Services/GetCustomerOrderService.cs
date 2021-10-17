@@ -23,15 +23,21 @@ namespace CustomerOrders.Services
                 Email = getGetCustomerOrderRequest.User, 
                 CustomerId = getGetCustomerOrderRequest.CustomerId
             };
-            customerOrderResponse.CustomerDetails = await _getCustomerDetailsService.GetAsync(customerDetailsRequest);
-            
-            if (customerOrderResponse.CustomerDetails.Success)
+
+            var customerDetails = await _getCustomerDetailsService.GetAsync(customerDetailsRequest);
+
+            var customerOrder = new GetOrderServiceResponse();
+            if (customerDetails.Success)
             {
                 var orderServiceRequest = new GetOrderServiceRequest() {CustomerId = getGetCustomerOrderRequest.CustomerId};
-                customerOrderResponse.CustomerOrder = await _getOrderService.GetAsync(orderServiceRequest);
+                customerOrder = await _getOrderService.GetAsync(orderServiceRequest);
             }
 
-            return customerOrderResponse;
+            return new GetCustomerOrderResponse()
+            {
+                CustomerDetails = customerDetails,
+                CustomerOrder = customerOrder
+            };
         }
     }
 }

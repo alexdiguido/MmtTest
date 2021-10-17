@@ -19,7 +19,6 @@ namespace CustomerOrders.Services
             var response = new GetOrderServiceResponse();
             try
             {
-                //response.CustomerOrderResponse = await _orderQueries.GetOrdersByCustomerIdV2(orderServiceRequest.CustomerId);
                 var order = await _orderQueries.GetOrdersByCustomerId(orderServiceRequest.CustomerId);
                 var mostRecentOrder = order.OrderByDescending(or => or.OrderDate).FirstOrDefault();
                 if (mostRecentOrder != null)

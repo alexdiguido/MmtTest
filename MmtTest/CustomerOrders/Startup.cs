@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CustomerOrders.DataAccess;
 using CustomerOrders.Helpers;
+using CustomerOrders.Mapping;
 using CustomerOrders.Services;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 

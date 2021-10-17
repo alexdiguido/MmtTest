@@ -8,8 +8,6 @@ namespace CustomerOrders.DataAccess
     {
         Task<List<Order>> GetOrdersByCustomerId(string customerId);
 
-        Task<OrderByCustomerIdResponse> GetOrdersByCustomerIdV2(string customerId);
-
         Task<List<Product>> GetProductsByOrderId(int orderId);
     }
 }

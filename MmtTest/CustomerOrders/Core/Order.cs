@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace CustomerOrders.Core
 {
+    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class Order : IOrder
     {   
         public int OrderNumber { get; set; }

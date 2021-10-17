@@ -19,40 +19,6 @@ namespace CustomerOrders.DataAccess
         }
 
 
-        public async Task<OrderByCustomerIdResponse> GetOrdersByCustomerIdV2(string customerId)
-        {
-            var orderList = new List<Order>();
-
-            using (var connection = _connectionProvider.GetDbConnection())
-            {
-                _sql =
-                    $"select * from ORDERS o inner join ORDERITEMS i on o.ORDERID = I.ORDERID inner join PRODUCTS p on i.PRODUCTID = p.PRODUCTID  where CUSTOMERID='{customerId}'";
-
-
-                var orders = await connection.QueryAsync<Order, OrderItem, Product, Order>(_sql,
-                    (order, orderItem, product) =>
-                    {
-                        product.Quantity = orderItem.Quantity;
-                        product.Price = orderItem.Price;
-                        if (order.Products == null)
-                        {
-                            order.Products = new List<Product>();
-                        }
-
-                        order.Products.Add(product);
-
-                        return order;
-                    },
-                    splitOn: "ORDERID, PRODUCTID");
-
-                orderList = orders?.ToList();
-            }
-
-            return orderList.Any() ? 
-                    OrderByCustomerIdMapper.MapFrom(orderList) : 
-                    new OrderByCustomerIdResponse();
-        }
-
         public async Task<List<Product>> GetProductsByOrderId(int orderId)
         {
             var productsList = new List<Product>();

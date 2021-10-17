@@ -6,5 +6,6 @@ namespace CustomerOrders.Core
     {
         public ICustomer Customer { get; set; }
         public IOrder Order { get; set; }
+        public bool IsSuccess { get; set; }
     }
 }

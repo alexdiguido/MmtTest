@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CustomerOrders.Core;
+using CustomerOrders.Mapping;
 
 namespace CustomerOrders.Services
 {
@@ -14,12 +15,7 @@ namespace CustomerOrders.Services
             _service = service;
             _mapper = mapper;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
+
         public async Task<ICustomerOrder> GetAsync(string user, string customerId)
         {
             var getCustomerOrderRequest = new GetCustomerOrderRequest {User = user, CustomerId = customerId};
