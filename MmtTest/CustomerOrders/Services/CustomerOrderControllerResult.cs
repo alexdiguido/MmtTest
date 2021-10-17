@@ -15,12 +15,7 @@ namespace CustomerOrders.Services
             }
             else
             {
-                if (!string.IsNullOrEmpty(response.Customer?.LastName))
-                {
-                    return BadRequest("Autentication Failed");
-                }
-
-                return InternalServerError("An error occurred");
+                return BadRequest("Autentication Failed");
             }
         }
 
@@ -36,15 +31,6 @@ namespace CustomerOrders.Services
         public Task<IActionResult> BadRequest(string message)
         {
             var statusCode = HttpStatusCode.BadRequest;
-
-            var result = new ObjectResult(message) { StatusCode = (int)statusCode };
-
-            return Task.FromResult<IActionResult>(result);
-        }
-
-        public Task<IActionResult> InternalServerError(string message)
-        {
-            var statusCode = HttpStatusCode.InternalServerError;
 
             var result = new ObjectResult(message) { StatusCode = (int)statusCode };
 
