@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using CustomerOrders.Core;
 using CustomerOrders.Services;
 
 namespace CustomerOrders.Controllers
@@ -24,6 +26,8 @@ namespace CustomerOrders.Controllers
         }
 
         [HttpPost("next-order")]
+        [ProducesResponseType(typeof(CustomerOrder), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Get([FromBody]GetNextOrderApiRequest request)
         {
             var response = await _controllerService.GetAsync(request.User, request.CustomerId);
